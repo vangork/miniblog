@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% with errors = form.email.errors %}
+{% if errors %}
+<div class="alert alert-danger">
+    {{ errors[0] }}
+</div>
+{% endif %}
+{% endwith %}
+
+<form class="form-horizontal" method="post">
+    {{ form.hidden_tag() }}
+    <fieldset>
+        <legend>Forget password</legend>
+        <div class="form-group">
+            <!--<label class="control-label" for="username">Account</label>-->
+            {{form.email.label(class="col-sm-2 control-label")}}
+            <div class="col-sm-4">
+                <!--<input type="text" class="input-xlarge" id="username" name="username">-->
+                {{form.email(class="form-control", placeholder="Input registered email")}}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <!--<button type="submit" class="btn btn-primary">Log in</button>-->
+                {{form.proceed(class="btn btn-primary")}}
+            </div>
+        </div>
+    </fieldset>
+</form>
+{% endblock %}

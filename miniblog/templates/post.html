@@ -1,0 +1,25 @@
+<table class="table table-hover">
+    <tr>
+        <td width="95px"><a href="{{ url_for('user', username=post.author.account) }}"><img src="{{url_for('static', filename='img/avatar_middle.jpg')}}" class="img-rounded" style="width:100%;" /></a></td>
+        <td>
+            <div class="pull-right">
+                {% if post.is_liked_by(g.user.id) %}
+                <p><a id="post_{{post.id}}_like_count" class="badge badge-danger" href="javascript:unlike('{{post.id}}');"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> {{post.likes.count()}}</a></p>
+                {% else %}
+                <p><a id="post_{{post.id}}_like_count" class="badge badge-danger" href="javascript:like('{{post.id}}');"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span> {{post.likes.count()}}</a></p>
+                {% endif %}
+                {% if post.author.id == g.user.id %}
+                <p><a href="{{ url_for('delete', id = post.id) }}"><span class="glyphicon glyphicon-trash"></span>Del</a></p>
+                {% endif %}
+            </div>
+            
+            <dl>
+                {% autoescape false %}
+                <dt style="font-size:150%;"><strong>{{ '<a href="{0}">{1}</a>'.format(url_for('user', username = post.author.account), post.author.nickname) }}</strong></dt>
+                <dd style="margin-bottom:8px"><script>document.write(moment.utc('{{post.timestamp}}').local().fromNow());</script></dd>
+                {% endautoescape %}
+                <dd><strong><span id="post{{ post.id }}">{{ post.body }}</span></strong></dd>
+            </dl>
+        </td>
+    </tr>
+</table>

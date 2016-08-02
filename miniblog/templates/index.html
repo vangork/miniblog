@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% if not g.user.is_authenticated %}
+<div class="jumbotron">
+    <h1>Welcome to miniblog</h1>
+    <p>This is twitter like blog implemented by Python. All is based on OSS technology.</p>
+    <p>
+        <a class="btn btn-primary btn-large" href="{{url_for('login')}}">Log in</a>
+        <a class="btn btn-warning btn-large" href="{{url_for('reg')}}">Sign up for miniblog</a>
+    </p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>BYVoid</h2>
+        <p>
+            Improve the performance of your website, media, or mobile service by moving content closer to your end users.
+            Get Started with CDN on Azure <a href="https://azure.microsoft.com/en-us/documentation/articles/cdn-overview/">Start tutorial.</a>
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Seth Manheim</h2>
+        <p>
+            Whether an application or service runs in the cloud or on premises,
+            it often needs to interact with other applications or services.
+            To provide a broadly useful way to do this, Microsoft Azure offers Service Bus.
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Yi Liu</h2>
+        <p>
+            Azure is a first class platform for Linux and open source technology,
+            with a growing list of OSS solutions in the marketplace, Linux extensions,
+            and Azure services like HDInsight running on Linux.
+            Learn from experts in the Linux and OSS world how to design and
+            deploy Linux and supporting technologies in your Azure environment.
+        </p>
+    </div>
+</div>
+{% else %}
+
+{% with errors = form.post.errors %}
+{% if errors %}
+<div class="alert alert-danger">
+    {{ errors[0] }}
+</div>
+{% endif %}
+{% endwith %}
+
+<h1>{{ "Hi, {0}!".format(g.user.nickname) }}</h1>
+<form class="well" method="post">
+    {{ form.hidden_tag() }}
+    <div class="input-group">
+        {{ form.post(class="form-control", placeholder="say something here…")}}
+        <span class="input-group-btn">
+            <button class="btn btn-success" type="submit">
+                <span class="glyphicon glyphicon-comment icon-white" aria-hidden="true"></span> Post
+            </button>
+        </span>
+    </div>
+</form>
+
+{% for post in posts.items %}
+    {% include 'post.html' %}
+{% endfor %}
+<ul class="pager">
+    {% if posts.has_prev %}
+    <li class="previous"><a href="{{ url_for('index', page=posts.prev_num) }}">Previous</a></li>
+    {% else %}
+    <li class="previous disabled"><a href="#">Previous</a></li>
+    {% endif %}
+    {% if posts.has_next %}
+    <li class="next"><a href="{{ url_for('index', page=posts.next_num) }}">Next</a></li>
+    {% else %}
+    <li class="next disabled"><a href="#">Next</a></li>
+    {% endif %}
+</ul>
+{% endif %}
+
+{% endblock %}

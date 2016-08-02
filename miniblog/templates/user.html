@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div class="well">
+		<div class="pull-right">
+			<img src="{{ url_for('static', filename='img/avatar_middle.jpg') }}" class="img-thumbnail">
+		</div>
+		<h1>{{ user.nickname }}</h1>
+		{% if user.last_seen %}
+        <p><em><script>document.write(moment.utc('{{user.last_seen}}').local().calendar());</script></em></p>
+		{% endif %}
+		<p>Followers: {{ user.followers.count() }} | Following: {{ user.followed.count() }}
+		{% if user.id == g.user.id %}
+		{% elif not g.user.is_following(user) %}
+			| <a href="{{ url_for('follow', username=user.account) }}">Follow</a>
+		{% else %}
+			| <a href="{{ url_for('unfollow', username=user.account) }}">Unfollow</a>
+		{% endif %}
+		</p>
+	</div>
+
+    {% for post in posts.items %}
+        {% include 'post.html' %}
+    {% endfor %}
+    <ul class="pager">
+        {% if posts.has_prev %}
+        <li class="previous"><a href="{{ url_for('user', username=user.account, page=posts.prev_num) }}">Previous</a></li>
+        {% else %}
+        <li class="previous disabled"><a href="#">Previous</a></li>
+        {% endif %}
+        {% if posts.has_next %}
+        <li class="next"><a href="{{ url_for('user', username=user.account, page=posts.next_num) }}">Next</a></li>
+        {% else %}
+        <li class="next disabled"><a href="#">Next</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}

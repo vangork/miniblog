@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% with errors = form.nickname.errors + form.email.errors + form.password.errors + form.password_new.errors%}
+{% if errors %}
+<div class="alert alert-danger">
+	{{ errors[0] }}
+</div>
+{% endif %}
+{% endwith %}
+
+<form class="form-horizontal" method="post">
+	{{ form.hidden_tag() }}
+    <fieldset>
+        <legend>Profile of {{g.user.nickname}}</legend>
+        <div class="form-group">
+            <!--<label class="control-label" for="username">Account</label>-->
+            {{form.username.label(class="col-sm-2 control-label")}}
+            <div class="col-sm-4">
+                <!--<input type="text" class="input-xlarge" id="username" name="username">-->
+                {{form.username(class="form-control", disabled="True")}}
+            </div>
+        </div>
+        <div class="form-group">
+            {{form.nickname.label(class="col-sm-2 control-label")}}
+            <div class="col-sm-4">
+                {{form.nickname(class="form-control")}}
+            </div>
+        </div>
+        <div class="form-group">
+            {{form.email.label(class="col-sm-2 control-label")}}
+            <div class="col-sm-4">
+                {{form.email(class="form-control")}}
+            </div>
+        </div>
+        <div class="form-group">
+            <!--<label class="control-label" for="password">Password</label>-->
+            {{form.password.label(class="col-sm-2 control-label")}}
+            <div class="col-sm-4">
+                <!--<input type="password" class="input-xlarge" id="password" name="password">-->
+                {{form.password(class="form-control", placeholder="Password")}}
+            </div>
+        </div>
+        <div class="form-group">
+            {{form.password_new.label(class="col-sm-2 control-label")}}
+            <div class="col-sm-4">
+                {{form.password_new(class="form-control", placeholder="Leave it blank to keep the password unchanged")}}
+            </div>
+        </div>
+        <div class="form-group">
+            <!--<label class="control-label" for="password-repeat">Repeat Password</label>-->
+            {{form.confirm.label(class="col-sm-2 control-label")}}
+            <div class="col-sm-4">
+                <!--<input type="password" class="input-xlarge" id="password-repeat"
+                name="password-repeat">-->
+                {{form.confirm(class="form-control", placeholder="Confirm password")}}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <!--<button type="submit" class="btn btn-primary">Sign up</button>-->
+                {{form.change(class="btn btn-primary")}}
+            </div>
+        </div>
+    </fieldset>
+</form>
+{% endblock %}
