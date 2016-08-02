@@ -4,7 +4,7 @@ python miniblog
 This is a simple blog implemented by Python. All is based on OSS technology.
 Installs and configures Python.  Manage python packages with `pip` and `virtualenv` isolated Python environments.
 
-####### ** THIS PROJECT IS TO DEMO HOW AZURE ENABLES OSS**
+####### THIS PROJECT IS TO DEMO HOW AZURE ENABLES OSS
 
 You can go to [demooss.azurewebsites.net](http://demooss.azurewebsites.net/) to check how the website looks. 
 Hope this can give you a basic idea how to leverage Azure to speed up your business togheter with OSS technology.
@@ -14,7 +14,7 @@ Development Environment Setup
 ### Platforms
 
 All the following steps apply to a clean Ubuntu Server 14.04.4 LTS. You can bypass some of the steps according to your own environment
-or change the commmands accrodingly if you are on the other Linux distributions.
+or change the commmands accrodingly for the other Linux distributions.
 
 ### Steps
 
@@ -30,7 +30,7 @@ $ cd miniblog
 ```
 
 2.By default, Python3.4.3 has been intergraded with Ubuntu Server 14.04.4 LTS.
-But we need to install `pip` and `virtualenv` by the following command.
+But we need to install `pip` and `virtualenv` with the following command.
 
 ```bash
 # install pip
@@ -51,7 +51,7 @@ which will hold the file hierarchy where your packages will be installed.
 
 4.To install packages into the isolated environment, you must activate it by typing:
 ```bash
-$ source newenv/bin/activate
+$ source env/bin/activate
 ```
 
 5.Now we could proceed to install the requried packages for this project defined in requirements.txt
@@ -61,7 +61,7 @@ $ pip install -r requirements.txt
 
 6.Customize the parameter in the config.py accordingly.
 
-- #####Database   
+#####Database   
 By default, this application will use SQLite DB named miniblog.db located in the root path as the backend database.
 Make sure to create a empty one if it dosen't exist.  
 ```
@@ -70,16 +70,16 @@ $ touch miniblog.db
 To use MySQL Database, change the following value. In additional, 
 create the database with the name of value of MYSQL_DATABASE in the MySQL instance.
 ```
-DATABASR_TYPE = 'mysql'   
+DATABASR_TYPE = 'mysql'  # Change DATABASR_TYPE to 'mysql' 
 MYSQL_SERVER = 'server'   
-MYSQL_DATABASE = 'miniblog'   
+MYSQL_DATABASE = 'miniblog'
 MYSQL_USER = 'user'   
 MYSQL_PASSWORD = 'password'   
 ```
 To use Microsoft SQL Server Database, change the following value. In additional, 
-create the Database with the name of value of MSSQL_DATABASE in the SQl Server instance.
+create the Database with the name of value of MSSQL_DATABASE in the SQL Server instance.
 ```
-DATABASR_TYPE = 'mssql'   
+DATABASR_TYPE = 'mssql'   # Change DATABASR_TYPE to 'mssql'
 MSSQL_SERVER = 'server'
 MSSQL_DATABASE = 'miniblog'
 MSSQL_USER = 'user'
@@ -89,11 +89,11 @@ NOTE: It also supports `Postgres` and `Oracle`. You can rewrite `SQLALCHEMY_DATA
 [flask-sqlalchemy Connection URI Format](http://flask-sqlalchemy.pocoo.org/2.1/config/#connection-uri-format)
 if needed.
 
-- #####Session   
+#####Session   
 By default, this application will use client-side sessions  
 To use redis, change the following value:
 ```
-SESSION_CLIENT = True #True(client-side session), False(server-side session)
+SESSION_CLIENT = False #True(client-side session), False(server-side session)
 REDIS_HOST = 'host'
 REDIS_PORT = port
 REDIS_PASSWORD = 'password'
@@ -102,9 +102,9 @@ NOTE: It also supports `memcached`, `filesystem`, `mongodb` and `sqlalchemy`. Yo
 and add some other environemnt parameters according to [flask-session ](https://pythonhosted.org/Flask-Session/)
 if needed.   
 
-- #####Mail Server & ServiceBus Queue  
+#####Mail Server & ServiceBus Queue  
 This part is to support the functionality of automatic email nofication to administrators when error 500 is hit.
-And later on for password forgotten reset.
+And password forgotten reset link will also be sent by the same email account.
 Please set the sender mailbox smtp info, and receiver list.
 ```
 ## Mail Config
@@ -121,16 +121,16 @@ AZURE_SERVICE_BUS_QUEUE = 'queue'
 AZURE_SERVICE_BUS_SHARED_ACCESS_KEY_NAME = 'access key name'
 AZURE_SERVICE_BUS_SHARED_ACCESS_KEY_VALUE = 'access key value'
 ```
-- #####CDN
+#####CDN
 Provide with the CDN info so as to improve the performance by pointing the static url to CDN. By default, it is disabled.
 ```
-CDN_ENABLED = True # True to enable CDN, False to disable
-CDN_DOMAIN = 'demooss.azureedge.net'
+CDN_ENABLED = False # True to enable CDN, False to disable
+CDN_DOMAIN = 'domain name'
 ```
 
 7.Initialize the database schema and run the program
 ```
-# Initialize DB schema, it is enough to execute it once
+# Initialize DB schema
 $ python db_create.py
 
 # Start the application 
@@ -148,17 +148,20 @@ it is the TIME to open your web browser and navigate to http://localhost:5555/.
 Deploy To Production
 ----------
 
-##### 1. Creating the Azure Services, Go to [New Azure portal](http://portal.azure.com),  
-* Create Web App   
-* Create SQL Datebase
-* Create Redis Cache
-* Create CDN Profile
-* Create Service Bus
+##### 1. Go to [New Azure portal](http://portal.azure.com), and create the following Azure Services.   
+* Web App
+* SQL Datebase
+* Redis Cache
+* CDN Profile
+* Service Bus
 
-##### 2. 
+##### 2. Change the config based on the step 6 in the last chapter.
+
+##### 3. Follow the link below to enable the web app repository and deploy the project  
+https://azure.microsoft.com/en-us/documentation/articles/web-sites-publish-source-control/
 
 License & Authors
 -----------------
 - Author: Yi Liu (<lyi@microsoft.com>)
-
+- License: GNU GENERAL PUBLIC LICENSE
 
